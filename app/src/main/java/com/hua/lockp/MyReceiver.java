@@ -19,10 +19,8 @@ public class MyReceiver extends BroadcastReceiver {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    if (finalClient !=null){
-                        finalClient.send(Client.POWER_EVENT);
-                        finalClient.close();
-                    }
+                    finalClient.send(Client.POWER_EVENT);
+                    finalClient.close();
                 }
             }).start();
         }

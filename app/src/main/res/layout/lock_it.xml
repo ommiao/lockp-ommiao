@@ -1,11 +1,34 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="@dimen/widget_margin">
-    <ImageView
-        android:id="@+id/lock"
-        android:src="@drawable/lock"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+    android:layout_height="50dp"
+    android:padding="@dimen/widget_margin"
+    android:id="@+id/lock"
+    android:gravity="center_vertical"
+    android:background="@drawable/shape_circle_left_and_right_transwhite">
 
-</RelativeLayout>
+    <ImageView
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:src="@drawable/ic_super_g_color"
+        android:layout_marginStart="15dp"/>
+
+    <TextView
+        android:id="@+id/tv_slogan"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:textSize="15sp"
+        android:text="@string/slogan"
+        android:textColor="@color/greyWhite"
+        android:gravity="end"
+        android:ellipsize="end"/>
+
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/opa_assistant_logo"
+        android:layout_marginEnd="20dp"/>
+
+</LinearLayout>

@@ -1,10 +1,12 @@
 package com.hua.lockp;
 
+import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.system.ErrnoException;
@@ -13,30 +15,45 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 
 public class MainActivity extends AppCompatActivity {
     ImageView icon;
     Button pc;
     Button hy;
+    TextView serverInfo;
     private Client client;
-    Handler handler = new Handler(){
+    MyHandler handler = new MyHandler(this);
+
+    static class MyHandler extends Handler{
+
+        private WeakReference<MainActivity> mActivity;
+
+        public MyHandler(MainActivity activity) {
+            this.mActivity = new WeakReference<>(activity);
+        }
+
         @Override
         public void handleMessage(Message msg) {
-            if (msg.what ==1){
-                handler.removeMessages(2);
-                icon.setImageResource(R.drawable.success);
-                handler.sendEmptyMessageDelayed(2,2000);
+            MainActivity activity = mActivity.get();
+            if (activity != null && msg.what == 1){
+                removeMessages(2);
+                activity.icon.setImageResource(R.drawable.success);
+                activity.serverInfo.setTextColor(ContextCompat.getColor(activity, R.color.colorPrimary));
+                activity.serverInfo.setText(R.string.ok_server);
+                sendEmptyMessageDelayed(2,2000);
             }
-            if (msg.what == 2){
-                icon.setImageResource(R.drawable.fail);
+            if (activity != null && msg.what == 2){
+                activity.icon.setImageResource(R.drawable.fail);
             }
-
         }
-    };
+    }
+
     private boolean run = true;
 
     @Override
@@ -46,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
         icon = findViewById(R.id.iv_icon);
         pc = findViewById(R.id.pc);
         hy = findViewById(R.id.hy);
+        serverInfo = findViewById(R.id.tv_server_info);
 
         client =new Client(5467,new Client.MsgCallBack() {
             @Override
@@ -61,16 +79,22 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // 将文本内容放到系统剪贴板里。
-                cm.setText(getString(R.string.pc_cmd));
-                Toast.makeText(MainActivity.this, R.string.success, Toast.LENGTH_LONG).show();
+                assert cm != null;
+                ClipData myClip;
+                myClip = ClipData.newPlainText("text", getString(R.string.pc_cmd));
+                cm.setPrimaryClip(myClip);
+                UiUtil.shortToast(UiUtil.TOAST_EMOJI_NEUTRAL, getString(R.string.success));
             }
         });
         hy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // 将文本内容放到系统剪贴板里。
-                cm.setText(getString(R.string.hy_cmd));
-                Toast.makeText(MainActivity.this, R.string.success, Toast.LENGTH_LONG).show();
+                assert cm != null;
+                ClipData myClip;
+                myClip = ClipData.newPlainText("text", getString(R.string.hy_cmd));
+                cm.setPrimaryClip(myClip);
+                UiUtil.shortToast(UiUtil.TOAST_EMOJI_NEUTRAL, getString(R.string.success));
             }
         });
     }

@@ -2,8 +2,9 @@
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
     android:initialKeyguardLayout="@layout/lock_it"
     android:initialLayout="@layout/lock_it"
-    android:minHeight="40dp"
-    android:minWidth="40dp"
-    android:previewImage="@drawable/lock"
+    android:minHeight="45dp"
+    android:minWidth="200dp"
+    android:previewImage="@drawable/preview"
     android:updatePeriodMillis="86400000"
-    android:widgetCategory="home_screen"></appwidget-provider>
+    android:widgetCategory="home_screen"
+    android:resizeMode="vertical|horizontal"/>
