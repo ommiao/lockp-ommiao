@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="10dp"
     tools:context=".MainActivity">
 
     <android.support.v7.widget.CardView
@@ -97,15 +98,15 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp">
+        android:layout_marginTop="5dp">
         <Button
             android:id="@+id/pc"
             android:text="@string/pc_go"
             android:textColor="@android:color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:elevation="10dp"
             android:background="@drawable/shape_circle_left_and_right_colorprimary"/>
 
@@ -117,6 +118,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:elevation="10dp"
             android:background="@drawable/shape_circle_left_and_right_colorprimary"/>
 
