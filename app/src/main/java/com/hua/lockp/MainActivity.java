@@ -17,13 +17,22 @@ import android.system.ErrnoException;
 import android.system.Os;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 
 import java.lang.ref.WeakReference;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
-    ImageView icon;
+
+    private boolean isServerRun = false;
+
+    private ImageView icon;
+
     private Client client;
+
     MyHandler handler = new MyHandler(this);
 
     static class MyHandler extends Handler{
@@ -38,12 +47,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         public void handleMessage(Message msg) {
             MainActivity activity = mActivity.get();
             if (activity != null && msg.what == 1){
+                if(!activity.isServerRun){
+                    activity.isServerRun = true;
+                    activity.switchToSuccess();
+                }
                 removeMessages(2);
-                activity.icon.setImageResource(R.drawable.success);
                 sendEmptyMessageDelayed(2,2000);
             }
-            if (activity != null && msg.what == 2){
-                activity.icon.setImageResource(R.drawable.fail);
+            if (activity != null && msg.what == 2 && activity.isServerRun){
+                activity.isServerRun = false;
+                activity.switchToFail();
             }
         }
     }
@@ -58,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         client =new Client(5467,new Client.MsgCallBack() {
             @Override
             public void onMsg(String text) {
-               handler.sendEmptyMessage(1);
+                handler.sendEmptyMessage(1);
             }
         });
         new HeartThread().start();
@@ -138,10 +151,51 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         UiUtil.shortToast(UiUtil.TOAST_EMOJI_NEUTRAL, getString(R.string.building));
     }
 
+    private void switchToSuccess(){
+        switchPicture(true);
+    }
+
+    private void switchToFail(){
+        switchPicture(false);
+    }
+
+    private void switchPicture(final boolean success){
+        Log.d("animanim", "switchPicture: " + success);
+        Animation shrink = new ScaleAnimation(1f, 0f, 1f, 0f,
+                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        shrink.setDuration(500);
+        shrink.setInterpolator(new AccelerateInterpolator());
+        shrink.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                if(success){
+                    icon.setImageResource(R.drawable.success);
+                } else {
+                    icon.setImageResource(R.drawable.fail);
+                }
+                Animation expand = new ScaleAnimation(0f, 1f, 0f, 1f,
+                        Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                expand.setDuration(500);
+                expand.setInterpolator(new DecelerateInterpolator());
+                icon.startAnimation(expand);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        icon.startAnimation(shrink);
+    }
+
     public void exJar(){
         String fromPath = "server.jar";
         String toPath = getFilesDir().getParentFile() + "/" + "server.jar";
-        Log.i("fuck", "exJar: "+toPath);
         Util.copyAssetFile(this, fromPath, toPath);
         try {
             Os.chmod(getFilesDir().getParentFile().getAbsolutePath(),489);
@@ -167,6 +221,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onDestroy() {
         super.onDestroy();
         run = false;
+        android.os.Process.killProcess(android.os.Process.myPid());
     }
 
     class HeartThread extends Thread{
