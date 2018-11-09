@@ -1,17 +1,12 @@
 <resources>
     <string name="app_name">Lockp</string>
-    <string name="tip">先激活服务，然后添加控件到桌面 </string>
     <string name="pc_cmd">adb shell sh /data/data/com.toxic.lockp/lockp.bash</string>
     <string name="hy_cmd">sh /data/data/com.toxic.lockp/lockp.bash</string>
-    <string name="label_pc_cmd">PC端命令:</string>
-    <string name="pc_go">复制PC端命令</string>
-    <string name="label_hy_cmd">黑域命令:</string>
-    <string name="hy_go">复制黑阈命令</string>
     <string name="success">复制成功</string>
-    <string name="no_server">服务未启用</string>
-    <string name="ok_server">服务已启用</string>
     <string name="slogan">Say \"一喵一世界&#8230;\"</string>
-    <string name="add_shortcut">添加快捷方式</string>
-    <string name="show_fab">显示悬浮窗</string>
-    <string name="hide_fab">显示悬浮窗</string>
+    <string name="label_pc_cmd">PC命令</string>
+    <string name="label_hy_cmd">黑域命令</string>
+    <string name="label_add_shortcut">快捷方式</string>
+    <string name="label_switch_fab">悬浮窗口</string>
+    <string name="building">暂未开放</string>
 </resources>

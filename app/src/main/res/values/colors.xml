@@ -6,4 +6,10 @@
     <color name="transWhite">#EEFFFFFF</color>
     <color name="grey">#666666</color>
     <color name="greyWhite">#AAAAAA</color>
+
+    <color name="pink">#FE6EAC</color>
+    <color name="green">#5BBAAA</color>
+    <color name="purple">#8682EE</color>
+    <color name="yellow">#EC8B42</color>
+
 </resources>

@@ -39,7 +39,8 @@
 
         <activity android:name=".ShortcutActivity"
             android:enabled="true"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/FakeDialog">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW"/>

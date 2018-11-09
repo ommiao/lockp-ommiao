@@ -5,31 +5,24 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.content.pm.ShortcutInfoCompat;
 import android.support.v4.content.pm.ShortcutManagerCompat;
 import android.support.v4.graphics.drawable.IconCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.system.ErrnoException;
 import android.system.Os;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import java.io.File;
-import java.io.IOException;
 import java.lang.ref.WeakReference;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     ImageView icon;
-    TextView serverInfo;
     private Client client;
     MyHandler handler = new MyHandler(this);
 
@@ -47,8 +40,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (activity != null && msg.what == 1){
                 removeMessages(2);
                 activity.icon.setImageResource(R.drawable.success);
-                activity.serverInfo.setTextColor(ContextCompat.getColor(activity, R.color.colorPrimary));
-                activity.serverInfo.setText(R.string.ok_server);
                 sendEmptyMessageDelayed(2,2000);
             }
             if (activity != null && msg.what == 2){
@@ -63,8 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        icon = findViewById(R.id.iv_icon);
-        serverInfo = findViewById(R.id.tv_server_info);
+        icon = findViewById(R.id.iv_state);
         client =new Client(5467,new Client.MsgCallBack() {
             @Override
             public void onMsg(String text) {
@@ -75,29 +65,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         exJar();
         exSh();
 
-        Button pc = findViewById(R.id.pc);
-        Button hy = findViewById(R.id.hy);
-        Button addShortcut = findViewById(R.id.add_shortcut);
-        Button showHideFab = findViewById(R.id.show_hide_fab);
-        pc.setOnClickListener(this);
-        hy.setOnClickListener(this);
-        addShortcut.setOnClickListener(this);
-        showHideFab.setOnClickListener(this);
+        ImageView ivClose = findViewById(R.id.iv_close);
+        ivClose.setOnClickListener(this);
+
+        CardView cardPcCmd = findViewById(R.id.cv_pc_cmd);
+        CardView cardHyCmd = findViewById(R.id.cv_hy_cmd);
+        CardView cardAddShortcut = findViewById(R.id.cv_add_shortcut);
+        CardView cardSwitchFab = findViewById(R.id.cv_switch_fab);
+        cardPcCmd.setOnClickListener(this);
+        cardHyCmd.setOnClickListener(this);
+        cardAddShortcut.setOnClickListener(this);
+        cardSwitchFab.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.pc:
+            case R.id.iv_close:
+                finish();
+                break;
+            case R.id.cv_pc_cmd:
                 copyPcCmd();
                 break;
-            case R.id.hy:
+            case R.id.cv_hy_cmd:
                 copyHyCmd();
                 break;
-            case R.id.add_shortcut:
+            case R.id.cv_add_shortcut:
                 addShortCut();
                 break;
-            case R.id.show_hide_fab:
+            case R.id.cv_switch_fab:
                 showHideFab();
                 break;
         }
@@ -139,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void showHideFab(){
-
+        UiUtil.shortToast(UiUtil.TOAST_EMOJI_NEUTRAL, getString(R.string.building));
     }
 
     public void exJar(){
@@ -147,28 +143,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String toPath = getFilesDir().getParentFile() + "/" + "server.jar";
         Log.i("fuck", "exJar: "+toPath);
         Util.copyAssetFile(this, fromPath, toPath);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            try {
-                Os.chmod(getFilesDir().getParentFile().getAbsolutePath(),489);
-                Os.chmod(toPath,420);
-            } catch (ErrnoException e) {
-                e.printStackTrace();
-            }
+        try {
+            Os.chmod(getFilesDir().getParentFile().getAbsolutePath(),489);
+            Os.chmod(toPath,420);
+        } catch (ErrnoException e) {
+            e.printStackTrace();
         }
-
     }
 
     public void exSh(){
         String fromPath = "lockp.bash";
         String toPath =getFilesDir().getParentFile() + "/" + "lockp.bash";
         Util.copyAssetFile(this, fromPath, toPath);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            try {
-                Os.chmod(getFilesDir().getParentFile().getAbsolutePath(),489);
-                Os.chmod(toPath,420);
-            } catch (ErrnoException e) {
-                e.printStackTrace();
-            }
+        try {
+            Os.chmod(getFilesDir().getParentFile().getAbsolutePath(),489);
+            Os.chmod(toPath,420);
+        } catch (ErrnoException e) {
+            e.printStackTrace();
         }
     }
 
