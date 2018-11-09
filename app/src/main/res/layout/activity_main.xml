@@ -115,7 +115,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_centerInParent="true"
-            android:src="@drawable/fail"
+            android:src="@drawable/icon_fail"
             android:elevation="0dp"
             android:padding="10dp"/>
 

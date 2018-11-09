@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.d("animanim", "switchPicture: " + success);
         Animation shrink = new ScaleAnimation(1f, 0f, 1f, 0f,
                 Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-        shrink.setDuration(500);
+        shrink.setDuration(250);
         shrink.setInterpolator(new AccelerateInterpolator());
         shrink.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -174,13 +174,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onAnimationEnd(Animation animation) {
                 if(success){
-                    icon.setImageResource(R.drawable.success);
+                    icon.setImageResource(R.drawable.icon_success);
                 } else {
-                    icon.setImageResource(R.drawable.fail);
+                    icon.setImageResource(R.drawable.icon_fail);
                 }
                 Animation expand = new ScaleAnimation(0f, 1f, 0f, 1f,
                         Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-                expand.setDuration(500);
+                expand.setDuration(250);
                 expand.setInterpolator(new DecelerateInterpolator());
                 icon.startAnimation(expand);
             }
