@@ -23,7 +23,8 @@
         android:text="@string/slogan"
         android:textColor="@color/greyWhite"
         android:gravity="end"
-        android:ellipsize="end"/>
+        android:ellipsize="end"
+        android:maxLines="1"/>
 
     <ImageView
         android:layout_width="20dp"

@@ -99,29 +99,80 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp">
-        <Button
-            android:id="@+id/pc"
-            android:text="@string/pc_go"
-            android:textColor="@android:color/white"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:elevation="10dp"
-            android:background="@drawable/shape_circle_left_and_right_colorprimary"/>
 
-        <Button
-            android:id="@+id/hy"
-            android:text="@string/hy_go"
-            android:textColor="@android:color/white"
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:elevation="10dp"
-            android:background="@drawable/shape_circle_left_and_right_colorprimary"/>
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/pc"
+                android:text="@string/pc_go"
+                android:textColor="@android:color/white"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="10dp"
+                android:elevation="10dp"
+                android:background="@drawable/shape_circle_left_colorprimary"/>
+
+            <View
+                android:layout_width="1px"
+                android:layout_height="match_parent"/>
+
+            <Button
+                android:id="@+id/hy"
+                android:text="@string/hy_go"
+                android:textColor="@android:color/white"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="10dp"
+                android:elevation="10dp"
+                android:background="@drawable/shape_circle_right_colorprimary"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/add_shortcut"
+                android:text="@string/add_shortcut"
+                android:textColor="@android:color/white"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="10dp"
+                android:elevation="10dp"
+                android:background="@drawable/shape_circle_left_colorprimary"/>
+
+            <View
+                android:layout_width="1px"
+                android:layout_height="match_parent"/>
+
+            <Button
+                android:id="@+id/show_hide_fab"
+                android:text="@string/show_fab"
+                android:textColor="@android:color/white"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="10dp"
+                android:elevation="10dp"
+                android:background="@drawable/shape_circle_right_colorprimary"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 

@@ -1,12 +1,17 @@
 package com.hua.lockp;
 
+import android.app.PendingIntent;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.pm.ShortcutInfoCompat;
+import android.support.v4.content.pm.ShortcutManagerCompat;
+import android.support.v4.graphics.drawable.IconCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.system.ErrnoException;
@@ -22,10 +27,8 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     ImageView icon;
-    Button pc;
-    Button hy;
     TextView serverInfo;
     private Client client;
     MyHandler handler = new MyHandler(this);
@@ -34,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
         private WeakReference<MainActivity> mActivity;
 
-        public MyHandler(MainActivity activity) {
+        private MyHandler(MainActivity activity) {
             this.mActivity = new WeakReference<>(activity);
         }
 
@@ -61,10 +64,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         icon = findViewById(R.id.iv_icon);
-        pc = findViewById(R.id.pc);
-        hy = findViewById(R.id.hy);
         serverInfo = findViewById(R.id.tv_server_info);
-
         client =new Client(5467,new Client.MsgCallBack() {
             @Override
             public void onMsg(String text) {
@@ -74,29 +74,72 @@ public class MainActivity extends AppCompatActivity {
         new HeartThread().start();
         exJar();
         exSh();
-        final ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-        pc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 将文本内容放到系统剪贴板里。
-                assert cm != null;
-                ClipData myClip;
-                myClip = ClipData.newPlainText("text", getString(R.string.pc_cmd));
-                cm.setPrimaryClip(myClip);
-                UiUtil.shortToast(UiUtil.TOAST_EMOJI_NEUTRAL, getString(R.string.success));
-            }
-        });
-        hy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 将文本内容放到系统剪贴板里。
-                assert cm != null;
-                ClipData myClip;
-                myClip = ClipData.newPlainText("text", getString(R.string.hy_cmd));
-                cm.setPrimaryClip(myClip);
-                UiUtil.shortToast(UiUtil.TOAST_EMOJI_NEUTRAL, getString(R.string.success));
-            }
-        });
+
+        Button pc = findViewById(R.id.pc);
+        Button hy = findViewById(R.id.hy);
+        Button addShortcut = findViewById(R.id.add_shortcut);
+        Button showHideFab = findViewById(R.id.show_hide_fab);
+        pc.setOnClickListener(this);
+        hy.setOnClickListener(this);
+        addShortcut.setOnClickListener(this);
+        showHideFab.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.pc:
+                copyPcCmd();
+                break;
+            case R.id.hy:
+                copyHyCmd();
+                break;
+            case R.id.add_shortcut:
+                addShortCut();
+                break;
+            case R.id.show_hide_fab:
+                showHideFab();
+                break;
+        }
+    }
+
+    private void copyPcCmd(){
+        ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        assert cm != null;
+        ClipData myClip;
+        myClip = ClipData.newPlainText("text", getString(R.string.pc_cmd));
+        cm.setPrimaryClip(myClip);
+        UiUtil.shortToast(UiUtil.TOAST_EMOJI_NEUTRAL, getString(R.string.success));
+    }
+
+    private void copyHyCmd(){
+        ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        assert cm != null;
+        ClipData myClip;
+        myClip = ClipData.newPlainText("text", getString(R.string.hy_cmd));
+        cm.setPrimaryClip(myClip);
+        UiUtil.shortToast(UiUtil.TOAST_EMOJI_NEUTRAL, getString(R.string.success));
+    }
+
+    private void addShortCut(){
+        if (ShortcutManagerCompat.isRequestPinShortcutSupported(this)) {
+            Intent shortcutInfoIntent = new Intent(this, ShortcutActivity.class);
+            shortcutInfoIntent.setAction(Intent.ACTION_VIEW); //action必须设置，不然报错
+            ShortcutInfoCompat info = new ShortcutInfoCompat.Builder(this, "The only id")
+                    .setIcon(IconCompat.createWithResource(this, R.drawable.ic_launcher))
+                    .setShortLabel("LockNow")
+                    .setIntent(shortcutInfoIntent)
+                    .build();
+
+            //当添加快捷方式的确认弹框弹出来时，将被回调
+            Intent it = new Intent();
+            PendingIntent shortcutCallbackIntent = PendingIntent.getBroadcast(this, 123, it, 0);
+            ShortcutManagerCompat.requestPinShortcut(this, info, shortcutCallbackIntent.getIntentSender());
+        }
+    }
+
+    private void showHideFab(){
+
     }
 
     public void exJar(){

@@ -11,4 +11,7 @@
     <string name="no_server">服务未启用</string>
     <string name="ok_server">服务已启用</string>
     <string name="slogan">Say \"一喵一世界&#8230;\"</string>
+    <string name="add_shortcut">添加快捷方式</string>
+    <string name="show_fab">显示悬浮窗</string>
+    <string name="hide_fab">显示悬浮窗</string>
 </resources>
