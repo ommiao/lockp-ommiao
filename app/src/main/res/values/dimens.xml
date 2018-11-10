@@ -3,4 +3,13 @@
     <dimen name="widget_margin">8dp</dimen>
     <dimen name="func_icon_size">45dp</dimen>
     <dimen name="card_size">90dp</dimen>
+    <dimen name="card_radius">10dp</dimen>
+    <dimen name="card_elevation">0dp</dimen>
+    <dimen name="full_size">260dp</dimen>
+    <dimen name="funcs_size">210dp</dimen>
+    <dimen name="card_divider_width">10dp</dimen>
+    <dimen name="state_size">80dp</dimen>
+    <dimen name="state_padding">10dp</dimen>
+    <dimen name="close_size">50dp</dimen>
+    <dimen name="close_padding">6dp</dimen>
 </resources>

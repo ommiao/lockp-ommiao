@@ -1,24 +1,23 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="250dp"
-    android:layout_height="250dp"
+    android:layout_width="@dimen/full_size"
+    android:layout_height="@dimen/full_size"
     android:background="@android:color/transparent">
 
     <RelativeLayout
-        android:layout_width="210dp"
-        android:layout_height="210dp"
+        android:layout_width="@dimen/funcs_size"
+        android:layout_height="@dimen/funcs_size"
         android:layout_gravity="center"
-        android:layout_marginTop="8dp"
         android:background="@drawable/shape_main_dialog">
 
         <android.support.v7.widget.CardView
             android:id="@+id/cv_pc_cmd"
             android:layout_width="@dimen/card_size"
             android:layout_height="@dimen/card_size"
-            app:cardBackgroundColor="@color/pink"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="0dp"
+            app:cardBackgroundColor="@color/red"
+            app:cardCornerRadius="@dimen/card_radius"
+            app:cardElevation="@dimen/card_elevation"
             android:layout_toStartOf="@+id/center"
             android:layout_above="@+id/center"
             android:foreground="?android:attr/selectableItemBackground">
@@ -36,8 +35,8 @@
             android:layout_width="@dimen/card_size"
             android:layout_height="@dimen/card_size"
             app:cardBackgroundColor="@color/purple"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="0dp"
+            app:cardCornerRadius="@dimen/card_radius"
+            app:cardElevation="@dimen/card_elevation"
             android:layout_above="@+id/center"
             android:layout_toEndOf="@+id/center"
             android:foreground="?android:attr/selectableItemBackground">
@@ -54,9 +53,9 @@
             android:id="@+id/cv_add_shortcut"
             android:layout_width="@dimen/card_size"
             android:layout_height="@dimen/card_size"
-            app:cardBackgroundColor="@color/green"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="0dp"
+            app:cardBackgroundColor="@color/blue"
+            app:cardCornerRadius="@dimen/card_radius"
+            app:cardElevation="@dimen/card_elevation"
             android:layout_toStartOf="@+id/center"
             android:layout_below="@+id/center"
             android:foreground="?android:attr/selectableItemBackground">
@@ -74,8 +73,8 @@
             android:layout_width="@dimen/card_size"
             android:layout_height="@dimen/card_size"
             app:cardBackgroundColor="@color/yellow"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="0dp"
+            app:cardCornerRadius="@dimen/card_radius"
+            app:cardElevation="@dimen/card_elevation"
             android:layout_below="@+id/center"
             android:layout_toEndOf="@+id/center"
             android:foreground="?android:attr/selectableItemBackground">
@@ -90,33 +89,32 @@
 
         <View
             android:id="@+id/center"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
+            android:layout_width="@dimen/card_divider_width"
+            android:layout_height="@dimen/card_divider_width"
             android:layout_centerInParent="true"/>
 
         <ImageView
-            android:layout_width="90dp"
-            android:layout_height="90dp"
+            android:id="@+id/iv_state_bg"
+            android:layout_width="@dimen/state_size"
+            android:layout_height="@dimen/state_size"
             android:background="@drawable/shape_circle"
-            android:layout_centerInParent="true"
-            android:elevation="0dp"
-            android:padding="10dp"/>
+            android:layout_centerInParent="true"/>
 
         <ImageView
             android:id="@+id/iv_state"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
+            android:layout_width="@dimen/state_size"
+            android:layout_height="@dimen/state_size"
             android:layout_centerInParent="true"
             android:src="@drawable/icon_fail"
-            android:elevation="0dp"
-            android:padding="10dp"/>
+            android:padding="@dimen/state_padding"/>
 
     </RelativeLayout>
 
     <ImageView
         android:id="@+id/iv_close"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="@dimen/close_size"
+        android:layout_height="@dimen/close_size"
+        android:padding="@dimen/close_padding"
         android:src="@drawable/icon_close"
         android:background="@drawable/shape_circle"
         android:layout_gravity="center_horizontal"/>

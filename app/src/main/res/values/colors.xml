@@ -7,9 +7,9 @@
     <color name="grey">#666666</color>
     <color name="greyWhite">#AAAAAA</color>
 
-    <color name="pink">#FE6EAC</color>
-    <color name="green">#5BBAAA</color>
-    <color name="purple">#8682EE</color>
-    <color name="yellow">#EC8B42</color>
+    <color name="red">#FF6A78</color>
+    <color name="blue">#24B5FF</color>
+    <color name="purple">#6C6FFF</color>
+    <color name="yellow">#FFB849</color>
 
 </resources>
