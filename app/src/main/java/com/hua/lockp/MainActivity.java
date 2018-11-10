@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ClipData myClip;
         myClip = ClipData.newPlainText("text", getString(R.string.pc_cmd));
         cm.setPrimaryClip(myClip);
-        UiUtil.shortToast(UiUtil.TOAST_EMOJI_NEUTRAL, getString(R.string.success));
+        UiUtil.shortToast(UiUtil.TOAST_EMOJI_NEUTRAL, getString(R.string.pc_success));
     }
 
     private void copyHyCmd(){
@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ClipData myClip;
         myClip = ClipData.newPlainText("text", getString(R.string.hy_cmd));
         cm.setPrimaryClip(myClip);
-        UiUtil.shortToast(UiUtil.TOAST_EMOJI_NEUTRAL, getString(R.string.success));
+        UiUtil.shortToast(UiUtil.TOAST_EMOJI_NEUTRAL, getString(R.string.hy_success));
     }
 
     private void addShortCut(){
