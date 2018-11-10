@@ -15,11 +15,9 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.system.ErrnoException;
 import android.system.Os;
-import android.util.Log;
 import android.view.View;
-import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
-import android.view.animation.DecelerateInterpolator;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 
@@ -160,11 +158,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void switchPicture(final boolean success){
-        Log.d("animanim", "switchPicture: " + success);
         Animation shrink = new ScaleAnimation(1f, 0f, 1f, 0f,
                 Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         shrink.setDuration(250);
-        shrink.setInterpolator(new AccelerateInterpolator());
+        shrink.setInterpolator(new AccelerateDecelerateInterpolator());
         shrink.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -178,11 +175,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 } else {
                     icon.setImageResource(R.drawable.icon_fail);
                 }
-                Animation expand = new ScaleAnimation(0f, 1f, 0f, 1f,
-                        Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-                expand.setDuration(250);
-                expand.setInterpolator(new DecelerateInterpolator());
-                icon.startAnimation(expand);
+                UiUtil.scaleAnimation(icon, 0f, 1f);
             }
 
             @Override
@@ -196,7 +189,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void exJar(){
         String fromPath = "server.jar";
         String toPath = getFilesDir().getParentFile() + "/" + "server.jar";
-        Util.copyAssetFile(this, fromPath, toPath);
+        FileUtil.copyAssetFile(this, fromPath, toPath);
         try {
             Os.chmod(getFilesDir().getParentFile().getAbsolutePath(),489);
             Os.chmod(toPath,420);
@@ -208,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void exSh(){
         String fromPath = "lockp.bash";
         String toPath =getFilesDir().getParentFile() + "/" + "lockp.bash";
-        Util.copyAssetFile(this, fromPath, toPath);
+        FileUtil.copyAssetFile(this, fromPath, toPath);
         try {
             Os.chmod(getFilesDir().getParentFile().getAbsolutePath(),489);
             Os.chmod(toPath,420);

@@ -7,6 +7,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.rebound.SimpleSpringListener;
+import com.facebook.rebound.Spring;
+import com.facebook.rebound.SpringConfig;
+import com.facebook.rebound.SpringSystem;
+
 public class UiUtil {
 
     public static final int TOAST_EMOJI_POSITIVE = 0;
@@ -16,6 +21,8 @@ public class UiUtil {
     public static final int TOAST_EMOJI_NEUTRAL = 2;
 
     private static Context mContext = Myapplication.getContext();
+
+    private static SpringSystem mSpringSystem = SpringSystem.create();
 
     //弹出提示
     public static void shortToast(int emoji, String content){
@@ -38,6 +45,22 @@ public class UiUtil {
         }
         toast.setView(view);
         toast.show();
+    }
+
+    private static final double tension = 50;
+    private static final double frictiion = 5;
+    public static void scaleAnimation(final View target, float from, float to){
+        Spring spring = mSpringSystem.createSpring();
+        spring.setCurrentValue(from);
+        spring.setSpringConfig(SpringConfig.fromOrigamiTensionAndFriction(tension, frictiion));
+        spring.addListener(new SimpleSpringListener(){
+            @Override
+            public void onSpringUpdate(Spring spring) {
+                target.setScaleX((float)spring.getCurrentValue());
+                target.setScaleY((float)spring.getCurrentValue());
+            }
+        });
+        spring.setEndValue(to);
     }
 
 }

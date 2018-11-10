@@ -7,7 +7,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 
-public class Util {
+public class FileUtil {
 
     public static boolean copyAssetFile(Context context, String fromPath, String toPath) {
         if (context == null || TextUtils.isEmpty(fromPath) || TextUtils.isEmpty(toPath)) {

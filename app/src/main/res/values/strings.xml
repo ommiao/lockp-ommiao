@@ -4,9 +4,5 @@
     <string name="hy_cmd">sh /data/data/com.toxic.lockp/lockp.bash</string>
     <string name="success">复制成功</string>
     <string name="slogan">Say \"一喵一世界&#8230;\"</string>
-    <string name="label_pc_cmd">PC命令</string>
-    <string name="label_hy_cmd">黑域命令</string>
-    <string name="label_add_shortcut">快捷方式</string>
-    <string name="label_switch_fab">悬浮窗口</string>
     <string name="building">暂未开发</string>
 </resources>
