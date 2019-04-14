@@ -1,5 +1,5 @@
 #!/system/bin/sh
-cp /data/data/com.toxic.lockp/server.jar /data/local/tmp/server.jar
+cp /data/data/cn.ommiao.lock/server.jar /data/local/tmp/server.jar
 chmod 777 /data/local/tmp/server.jar
 chown shell /data/local/tmp/server.jar
 export CLASSPATH=/data/local/tmp/server.jar

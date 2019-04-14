@@ -133,8 +133,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent shortcutInfoIntent = new Intent(this, ShortcutActivity.class);
             shortcutInfoIntent.setAction(Intent.ACTION_VIEW); //action必须设置，不然报错
             ShortcutInfoCompat info = new ShortcutInfoCompat.Builder(this, "The only id")
-                    .setIcon(IconCompat.createWithResource(this, R.drawable.ic_launcher))
-                    .setShortLabel("LockNow")
+                    .setIcon(IconCompat.createWithResource(this, R.mipmap.ic_launcher_round))
+                    .setShortLabel(getString(R.string.lock))
                     .setIntent(shortcutInfoIntent)
                     .build();
 

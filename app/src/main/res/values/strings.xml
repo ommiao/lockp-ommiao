@@ -1,9 +1,10 @@
 <resources>
-    <string name="app_name">Lockp</string>
-    <string name="pc_cmd">adb shell sh /data/data/com.toxic.lockp/lockp.bash</string>
-    <string name="hy_cmd">sh /data/data/com.toxic.lockp/lockp.bash</string>
+    <string name="app_name">喵了锁屏</string>
+    <string name="pc_cmd">adb shell sh /data/data/cn.ommiao.lock/lockp.bash</string>
+    <string name="hy_cmd">sh /data/data/cn.ommiao.lock/lockp.bash</string>
     <string name="pc_success">复制PC指令成功</string>
     <string name="hy_success">复制黑域指令成功</string>
-    <string name="slogan">Say \"一喵一世界&#8230;\"</string>
+    <string name="slogan">Say \"Ok Google&#8230;\"</string>
     <string name="building">暂未开发</string>
+    <string name="lock">锁屏</string>
 </resources>
