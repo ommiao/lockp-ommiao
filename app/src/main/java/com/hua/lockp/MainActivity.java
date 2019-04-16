@@ -1,12 +1,15 @@
 package com.hua.lockp;
 
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.Settings;
 import android.support.v4.content.pm.ShortcutInfoCompat;
 import android.support.v4.content.pm.ShortcutManagerCompat;
 import android.support.v4.graphics.drawable.IconCompat;
@@ -15,6 +18,7 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.system.ErrnoException;
 import android.system.Os;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
@@ -25,13 +29,17 @@ import java.lang.ref.WeakReference;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
+    public static final String HOME_ASSESSIBILITY_OPEN = "HOME_ASSESSIBILITY_OPEN";
+    public static final String HOME_ASSESSIBILITY_CLOSE = "HOME_ASSESSIBILITY_CLOSE";
+
     private boolean isServerRun = false;
 
-    private ImageView icon;
+    private ImageView icon, homeState;
 
     private Client client;
 
     MyHandler handler = new MyHandler(this);
+    private HomeAccessibilityReceiver homeAccessibilityReceiver;
 
     static class MyHandler extends Handler{
 
@@ -66,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         icon = findViewById(R.id.iv_state);
+        homeState = findViewById(R.id.iv_home_state);
         client =new Client(5467,new Client.MsgCallBack() {
             @Override
             public void onMsg(String text) {
@@ -82,11 +91,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         CardView cardPcCmd = findViewById(R.id.cv_pc_cmd);
         CardView cardHyCmd = findViewById(R.id.cv_hy_cmd);
         CardView cardAddShortcut = findViewById(R.id.cv_add_shortcut);
-        CardView cardSwitchFab = findViewById(R.id.cv_switch_fab);
+        CardView cardViewHome = findViewById(R.id.cv_start_home);
         cardPcCmd.setOnClickListener(this);
         cardHyCmd.setOnClickListener(this);
         cardAddShortcut.setOnClickListener(this);
-        cardSwitchFab.setOnClickListener(this);
+        cardViewHome.setOnClickListener(this);
+        if(isHomeServiceOn()){
+            homeState.setImageResource(R.drawable.shape_dot_open);
+        } else {
+            homeState.setImageResource(R.drawable.shape_dot_close);
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(HOME_ASSESSIBILITY_OPEN);
+        filter.addAction(HOME_ASSESSIBILITY_CLOSE);
+        homeAccessibilityReceiver = new HomeAccessibilityReceiver();
+        registerReceiver(homeAccessibilityReceiver, filter);
     }
 
     @Override
@@ -104,8 +128,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.cv_add_shortcut:
                 addShortCut();
                 break;
-            case R.id.cv_switch_fab:
-                showHideFab();
+            case R.id.cv_start_home:
+                startHomeAccessibility();
                 break;
         }
     }
@@ -145,8 +169,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void showHideFab(){
-        UiUtil.shortToast(UiUtil.TOAST_EMOJI_NEUTRAL, getString(R.string.building));
+    private void startHomeAccessibility(){
+        if(isHomeServiceOn()){
+            UiUtil.shortToast(UiUtil.TOAST_EMOJI_NEUTRAL, getString(R.string.home_started));
+        } else {
+            try {
+                Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
+                startActivity(intent);
+                UiUtil.shortToast(UiUtil.TOAST_EMOJI_NEGATIVE, getString(R.string.home_accessibility_tips));
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }
     }
 
     private void switchToSuccess(){
@@ -214,7 +248,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onDestroy() {
         super.onDestroy();
         run = false;
+        unregisterReceiver(homeAccessibilityReceiver);
         android.os.Process.killProcess(android.os.Process.myPid());
+    }
+
+    private boolean isHomeServiceOn() {
+        int accessibilityEnabled = 0;
+        final String service = getPackageName() + "/" + HomeService.class.getCanonicalName();
+        try {
+            accessibilityEnabled = Settings.Secure.getInt(
+                    getApplicationContext().getContentResolver(),
+                    android.provider.Settings.Secure.ACCESSIBILITY_ENABLED);
+        } catch (Settings.SettingNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        TextUtils.SimpleStringSplitter mStringColonSplitter = new TextUtils.SimpleStringSplitter(':');
+        if (accessibilityEnabled == 1) {
+            String settingValue = Settings.Secure.getString(
+                    getApplicationContext().getContentResolver(),
+                    Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
+            if (settingValue != null) {
+                mStringColonSplitter.setString(settingValue);
+                while (mStringColonSplitter.hasNext()) {
+                    String accessibilityService = mStringColonSplitter.next();
+                    if (accessibilityService.equalsIgnoreCase(service)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     class HeartThread extends Thread{
@@ -227,6 +291,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     e.printStackTrace();
                 }
                 client.send(Client.HEART_BEAT);
+            }
+        }
+    }
+
+    class HomeAccessibilityReceiver extends BroadcastReceiver{
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if(HOME_ASSESSIBILITY_OPEN.equals(action)){
+                homeState.setImageResource(R.drawable.shape_dot_open);
+            } else if(HOME_ASSESSIBILITY_CLOSE.equals(action)){
+                homeState.setImageResource(R.drawable.shape_dot_close);
             }
         }
     }
