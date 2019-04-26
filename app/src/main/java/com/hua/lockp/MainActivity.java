@@ -26,6 +26,7 @@ import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 
 import java.lang.ref.WeakReference;
+import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -156,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (ShortcutManagerCompat.isRequestPinShortcutSupported(this)) {
             Intent shortcutInfoIntent = new Intent(this, ShortcutActivity.class);
             shortcutInfoIntent.setAction(Intent.ACTION_VIEW); //action必须设置，不然报错
-            ShortcutInfoCompat info = new ShortcutInfoCompat.Builder(this, "The only id")
+            ShortcutInfoCompat info = new ShortcutInfoCompat.Builder(this, UUID.randomUUID().toString())
                     .setIcon(IconCompat.createWithResource(this, R.mipmap.ic_launcher_round))
                     .setShortLabel(getString(R.string.lock))
                     .setIntent(shortcutInfoIntent)
@@ -176,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             try {
                 Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
                 startActivity(intent);
-                UiUtil.shortToast(UiUtil.TOAST_EMOJI_NEGATIVE, getString(R.string.home_accessibility_tips));
+                UiUtil.shortToast(UiUtil.TOAST_EMOJI_NEUTRAL, getString(R.string.home_accessibility_tips));
             } catch (Exception e){
                 e.printStackTrace();
             }

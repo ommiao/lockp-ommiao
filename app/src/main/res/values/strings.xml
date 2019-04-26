@@ -8,5 +8,5 @@
     <string name="home_started">长按Home键锁屏已开启</string>
     <string name="lock">锁屏</string>
     <string name="home_accessibility_tips">请打开无障碍服务</string>
-    <string name="home_accessibility_info">监听Home键长按动作，用于屏幕锁定。\n开启该功能自动开启长按Home键锁屏，如不需要该锁定方式，请保持关闭状态。</string>
+    <string name="home_accessibility_info">本服务监听Home键长按动作，用于屏幕锁定。\n\n开启该服务则自动开启长按Home键锁屏，如不需要该锁定方式，请保持关闭状态。</string>
 </resources>
